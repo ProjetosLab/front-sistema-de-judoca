@@ -1,0 +1,71 @@
+<div class="main">
+    <nav class="navbar navbar-expand-md">
+        <button id="buttonCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span>
+        </button>
+        <div class="title">
+            <span>Sistema de Judocas</span>
+        </div>
+    
+    </nav>
+    <div class="register-container row">
+    
+        <div class="col-md-6 register-block">
+            <span class="title">Registro de Judoca</span>
+            <div class="button-container" *ngIf="registerType == 0">
+                <div class="button" (click)="registerType = 1">Novo aluno</div>
+                <div class="button" (click)="registerType = 2">Novo professor</div>
+                <span class="message" *ngIf="message">{{message}}</span>
+            </div>
+        </div>
+
+        <div class="col-md-6 register-block">
+            <span class="title">Alteração de Judoca</span>
+            <div class="button-container" *ngIf="registerType == 0">
+                <div class="button" (click)="registerType = 1">Alterar aluno</div>
+                <div class="button" (click)="registerType = 2">Alterar professor</div>
+                <span class="message" *ngIf="message">{{message}}</span>
+            </div>
+        </div>
+    
+        <div class="form-container" *ngIf="registerType == 1">
+            <input type="text" id="nome" [value]="newStudent.nome" (input)="newStudent.nome = $event.target.value; toggleClass('nome', 'mistake', false)">
+            <label for="nome">Nome *</label>
+    
+            <input type="text" id="dataNasc" [value]="newStudent.dataNasc" (input)="newStudent.dataNasc = $event.target.value; toggleClass('dataNasc', 'mistake', false)">
+            <label for="dataNasc">Data do nascimento *</label>
+    
+            <input type="text" id="cbj" [value]="newStudent.cbj" (input)="newStudent.cbj = $event.target.value; toggleClass('cbj', 'mistake', false)">
+            <label for="cbj">CBJ *</label>
+    
+            <input type="text" id="tel1" [value]="newStudent.tel1" (input)="newStudent.tel1 = $event.target.value; toggleClass('tel1', 'mistake', false)">
+            <label for="tel1">Telefone 1 *</label>
+    
+            <input type="text" id="tel2" [value]="newStudent.tel2" (input)="newStudent.tel2 = $event.target.value; toggleClass('tel2', 'mistake', false)">
+            <label for="tel2">Telefone 2 *</label>
+    
+            <input type="text" id="email" [value]="newStudent.email" (input)="newStudent.email = $event.target.value; toggleClass('email', 'mistake', false)">
+            <label for="email">Email *</label>
+    
+            <input type="text" id="cpf" [value]="newStudent.cpf" (input)="newStudent.cpf = $event.target.value; toggleClass('cpf', 'mistake', false)">
+            <label for="cpf">CPF *</label>
+    
+            <input type="text" id="rg" [value]="newStudent.rg" (input)="newStudent.rg = $event.target.value; toggleClass('rg', 'mistake', false)">
+            <label for="rg">RG *</label>
+            
+            <input type="text" id="org" [value]="newStudent.org" (input)="newStudent.org = $event.target.value; toggleClass('org', 'mistake', false)">
+            <label for="org">ORG *</label>
+    
+            <input type="text" id="ob" [value]="newStudent.ob" (input)="newStudent.ob = $event.target.value; toggleClass('ob', 'mistake', false)">
+            <label for="ob">OB</label>
+    
+            <span>Elementos marcados com * são obrigatórios</span>
+            <div class="button" (click)="registerStudent()">Submeter</div>
+        </div>
+    
+        <div class="under-construction" *ngIf="registerType == 2">
+            <span>Ainda em construção</span>
+            <div class="button" (click)="registerType = 0">Voltar</div>
+        </div>
+    </div>
+</div>
