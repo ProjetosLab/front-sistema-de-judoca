@@ -15,7 +15,6 @@
             <div class="button-container" *ngIf="registerType == 0">
                 <div class="button" (click)="registerType = 1">Novo aluno</div>
                 <div class="button" (click)="registerType = 2">Novo professor</div>
-                <span class="message" *ngIf="message">{{message}}</span>
             </div>
         </div>
 
@@ -24,9 +23,10 @@
             <div class="button-container" *ngIf="registerType == 0">
                 <div class="button" (click)="registerType = 1">Alterar aluno</div>
                 <div class="button" (click)="registerType = 2">Alterar professor</div>
-                <span class="message" *ngIf="message">{{message}}</span>
             </div>
         </div>
+
+        <span class="message" *ngIf="message">{{message}}</span>
     
         <div class="form-container" *ngIf="registerType == 1">
             <input type="text" id="nome" [value]="newStudent.nome" (input)="newStudent.nome = $event.target.value; toggleClass('nome', 'mistake', false)">

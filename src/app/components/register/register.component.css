@@ -95,7 +95,7 @@ nav{
 }
 
 .register-container {
-    background-color: #f0f0f0;
+    background-color: var(--white);
     padding: 0px 15px 0px 15px;
     margin-right : auto;
     margin-left : auto;
@@ -130,7 +130,7 @@ nav{
     margin: 20px 0px 0px 0px;
     padding: 12px 18px 12px 18px;
     text-align: center;
-    color: var(--white);
+    color: var(--black);
     font-size: 18px;
 }
 
@@ -148,7 +148,7 @@ nav{
     margin: 20px 0px 0px 0px;
     padding: 12px 18px 12px 18px;
     text-align: center;
-    color: var(--white);
+    color: var(--black);
     font-size: 18px;
 }
 
@@ -171,7 +171,7 @@ nav{
 
 .register-container .form-container input + label {
     position: relative;
-    top: -54px; /*This may change with input padding*/
+    top: -60px; /*This may change with input padding*/
     left: 12px;
     background-color: var(--white);
     width: fit-content;

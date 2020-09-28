@@ -9,14 +9,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegisterService {
 
-  private registerStudentUrl : string = environment.baseUrl + (environment.port ? ':' + environment.port : '') + '/api/Teste/NA/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
+  private studentRegisterUrl : string = environment.baseUrl + 'Teste/NA/aluno/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
+  private teacherRegisterUrl : string = environment.baseUrl + 'Teste/NA/professor/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
 
   constructor(
     private http : HttpClient,
   ) { }
 
   registerStudent(newStudent : alunoInterface) : Observable<string> {
-    let registerStudentUrl = this.registerStudentUrl
+    let studentRegisterUrl = this.studentRegisterUrl
       .replace('{nome}', newStudent.nome)
       .replace('{dataNasc}', newStudent.dataNasc)
       .replace('{cbj}', newStudent.cbj)
@@ -26,8 +27,26 @@ export class RegisterService {
       .replace('{cpf}', newStudent.cpf)
       .replace('{rg}', newStudent.rg)
       .replace('{org}', newStudent.org);
-    newStudent.ob ? registerStudentUrl.replace('{ob?}', newStudent.ob) : registerStudentUrl.replace('/{ob?}', '');
+    newStudent.ob ? studentRegisterUrl.replace("{ob?}", newStudent.ob) : studentRegisterUrl.replace("/{ob?}", "");
 
-    return this.http.get<string>(registerStudentUrl);
+    console.log(studentRegisterUrl);
+
+    return this.http.get<string>(studentRegisterUrl);
+  }
+
+  registerTeacher(newStudent : alunoInterface) : Observable<string> {
+    let teacherRegisterUrl = this.teacherRegisterUrl
+      .replace('{nome}', newStudent.nome)
+      .replace('{dataNasc}', newStudent.dataNasc)
+      .replace('{cbj}', newStudent.cbj)
+      .replace('{tel1}', newStudent.tel1)
+      .replace('{tel2}', newStudent.tel2)
+      .replace('{email}', newStudent.email)
+      .replace('{cpf}', newStudent.cpf)
+      .replace('{rg}', newStudent.rg)
+      .replace('{org}', newStudent.org);
+    newStudent.ob ? teacherRegisterUrl.replace("{ob?}", newStudent.ob) : teacherRegisterUrl.replace("/{ob?}", "");
+
+    return this.http.get<string>(teacherRegisterUrl);
   }
 }

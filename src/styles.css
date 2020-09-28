@@ -1,12 +1,13 @@
 :root {
-    --primary-color-1 : #0000FF;
-    --primary-color-1-shade : #0000EE;
+    --primary-color-1 : #FFFF00;
+    --primary-color-1-shade : #EEEE00;
     
     --gray-scroll-bg : #E6E5E7;
     --gray-scroll : #8A8B8A;
     --gray-scroll-shade : #7A7B7A;
 
     --white : #FFF;
+    --black : #111;
     --alert : #099;
     --danger : #FF0000;
 

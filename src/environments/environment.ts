@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://localhost",
-  port: "",
+  baseUrl: "http://sistema-de-judoca.herokuapp.com/api/",
 };
 
 /*
