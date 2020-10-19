@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://sistema-de-judoca.herokuapp.com/api/",
+  baseUrl: "https://sistema-de-judoca.herokuapp.com/api/",
 };
 
 /*
