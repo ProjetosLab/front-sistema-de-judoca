@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.5.7 # This is the action
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: 190d2878-423f-4b45-adb2-ac0ea028b22e
           heroku_app_name: "front-sistema-de-judoca" #Must be unique in Heroku
           heroku_email: "sa.kgs10@gmail.com"
