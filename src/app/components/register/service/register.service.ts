@@ -1,52 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { alunoInterface } from 'src/app/util/aluno';
+import { clienteJudocaInterface } from 'src/app/util/aluno';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
 
-  private studentRegisterUrl : string = environment.baseUrl + 'Teste/NA/aluno/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
-  private teacherRegisterUrl : string = environment.baseUrl + 'Teste/NA/professor/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
+  private clientRegisterUrl : string = environment.baseUrl + 'Teste/NA/{registerType}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
 
   constructor(
     private http : HttpClient,
   ) { }
 
-  registerStudent(newStudent : alunoInterface) : Observable<string> {
-    let studentRegisterUrl = this.studentRegisterUrl
-      .replace('{nome}', newStudent.nome)
-      .replace('{dataNasc}', newStudent.dataNasc)
-      .replace('{cbj}', newStudent.cbj)
-      .replace('{tel1}', newStudent.tel1)
-      .replace('{tel2}', newStudent.tel2)
-      .replace('{email}', newStudent.email)
-      .replace('{cpf}', newStudent.cpf)
-      .replace('{rg}', newStudent.rg)
-      .replace('{org}', newStudent.org);
-    newStudent.ob ? studentRegisterUrl.replace("{ob?}", newStudent.ob) : studentRegisterUrl.replace("/{ob?}", "");
+  registerClient(newClient : clienteJudocaInterface, registerType : number) : Observable<JSON> {
 
-    console.log(studentRegisterUrl);
+    let clientRegisterUrl = this.clientRegisterUrl
+      .replace('{nome}', newClient.nome)
+      .replace('{dataNasc}', newClient.dataNasc)
+      .replace('{cbj}', newClient.cbj)
+      .replace('{tel1}', newClient.tel1)
+      .replace('{tel2}', newClient.tel2)
+      .replace('{email}', newClient.email)
+      .replace('{cpf}', newClient.cpf)
+      .replace('{rg}', newClient.rg)
+      .replace('{org}', newClient.org);
+      newClient.ob ? clientRegisterUrl = clientRegisterUrl.replace("{ob?}", newClient.ob) : clientRegisterUrl = clientRegisterUrl.replace("/{ob?}", "");
+    
+    if( registerType == 1 ) clientRegisterUrl = clientRegisterUrl.replace('{registerType}','aluno');
+    else if( registerType == 2 ) clientRegisterUrl = clientRegisterUrl.replace('{registerType}','professor');
 
-    return this.http.get<string>(studentRegisterUrl);
-  }
-
-  registerTeacher(newStudent : alunoInterface) : Observable<string> {
-    let teacherRegisterUrl = this.teacherRegisterUrl
-      .replace('{nome}', newStudent.nome)
-      .replace('{dataNasc}', newStudent.dataNasc)
-      .replace('{cbj}', newStudent.cbj)
-      .replace('{tel1}', newStudent.tel1)
-      .replace('{tel2}', newStudent.tel2)
-      .replace('{email}', newStudent.email)
-      .replace('{cpf}', newStudent.cpf)
-      .replace('{rg}', newStudent.rg)
-      .replace('{org}', newStudent.org);
-    newStudent.ob ? teacherRegisterUrl.replace("{ob?}", newStudent.ob) : teacherRegisterUrl.replace("/{ob?}", "");
-
-    return this.http.get<string>(teacherRegisterUrl);
+    return this.http.get<JSON>(clientRegisterUrl);
   }
 }

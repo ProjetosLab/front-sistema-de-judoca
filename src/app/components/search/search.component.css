@@ -1,0 +1,29 @@
+.data-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.message {
+    margin: 10px;
+}
+
+.data-container .button-container .button {
+    text-align: center;
+    width: 250px;
+    padding: 10px 20px 10px 30px;
+    background-color: var(--primary-color-1);
+    box-shadow: 0px 4px 0px var(--primary-color-1-shade);
+    border-radius: 4px;
+    color: var(--white);
+    font-weight: 600;
+    margin: 10px 0px 0px 0px;
+}
+
+.data-container .button-container .button:hover {
+    box-shadow: unset;
+    position: relative;
+    top: 4px;
+    background-color: var(--primary-color-1-shade);
+    cursor: pointer;
+}

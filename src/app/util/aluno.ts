@@ -1,4 +1,4 @@
-export interface alunoInterface {
+export interface clienteJudocaInterface {
     nome : string;
     dataNasc : string;
     cbj : string;
@@ -9,4 +9,6 @@ export interface alunoInterface {
     rg : string;
     org : string;
     ob? : string;
+    dataCadastro? : string;
+    id? : string;
 }

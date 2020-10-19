@@ -1,0 +1,19 @@
+<span class="message" *ngIf="message"> {{message}} </span>
+
+<div class="data-container" *ngIf="customer">
+    <span>Nome: {{customer.nome}}</span>
+    <span>Nascimento: {{customer.dataNasc}}</span>
+    <span>Cadastrado em: {{customer.dataCadastro}}</span>
+    <span>CBJ: {{customer.cbj}}</span>
+    <span>Telefone 1: {{customer.tel1}}</span>
+    <span>Telefone 2: {{customer.tel2}}</span>
+    <span>Email: {{customer.email}}</span>
+    <span>CPF: {{customer.cpf}}</span>
+    <span>RG: {{customer.rg}}</span>
+    <span>Orgão expedidor: {{customer.org}}</span>
+    <span>Observação: {{customer.ob}}</span>
+
+    <div class="button-container">
+        <div class="button" (click)="redirectTo('/register')">Voltar</div>
+    </div>
+</div>
