@@ -33,3 +33,5 @@ jobs:
           heroku_email: sa.kgs10@gmail.com
           # The appname to use for deploying/updating
           heroku_app_name: front-sistema-de-judoca
+          # Set to true if you need upload files generated dynamically by the GitHub Action to Heroku
+          dynamicFiles: true
