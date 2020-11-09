@@ -83,7 +83,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   registerClient() : void {
     if( this.areInputsValid() ) {
-      this.newClient.cpf = this.newClient.cpf.replace(/./g,'').replace(/-/g,'');
       this.registerService.registerClient(this.newClient, this.registerType).subscribe( (responseJSON : any) => {
         if( responseJSON.id == -1 ) this.message = "CPF já cadastrado";
         else this.message = "Cliente cadastrado com sucesso! ID de cadastro: " + responseJSON.id;    
@@ -118,7 +117,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   updateClient() : void {
     if( this.areInputsValid() ) {
 
-      this.newClient.cpf = this.newClient.cpf.replace(/./g,'').replace(/-/g,'');
       this.registerService.updateClient(this.newClient).subscribe( (responseJson : any) => {
         this.message = "Perfil atualizado com sucesso!";
       },
@@ -137,7 +135,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   registerEntity() : void {
     if( this.areInputsValid() ) {
 
-      this.newClient.cpf = this.newClient.cpf.replace(/./g,'').replace(/-/g,'').replace(/\//g,'');
       this.registerService.registerEntity(this.newEntity).subscribe( (responseJSON : any) => {
         if( responseJSON.id == -1 ) this.message = "CNPJ já cadastrado";
         else this.message = "Entidade cadastrada com sucesso! Id do cadastro: " + responseJSON.id;  
@@ -170,9 +167,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     let passRegexCounter = 0;
 
     if(this.registerType == 1 || this.registerType == 2 || this.registerType == 3) {
-      let phoneRegex = RegExp('^(\\([0-9]{2}\\))?[0-9]{4,5}-?[0-9]{4}$');
+      let phoneRegex = RegExp('^[0-9]{8,11}$');
       let emailRegex = RegExp('^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$');
-      let cpfRegex = RegExp('^[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}-?[0-9]{2}$');
+      let cpfRegex = RegExp('^[0-9]{11}$');
 
       if( (<HTMLInputElement>document.getElementById('form-nome')).value ) passRegexCounter++; else document.getElementById('form-nome').classList.add('invalid');
       if( (<HTMLInputElement>document.getElementById('form-dataNasc')).value ) passRegexCounter++; else document.getElementById('form-dataNasc').classList.add('invalid');
@@ -185,11 +182,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       if(emailRegex.test( (<HTMLInputElement>document.getElementById('form-email')).value ) ) passRegexCounter++; else document.getElementById('form-email').classList.add('invalid');
       if(cpfRegex.test( (<HTMLInputElement>document.getElementById('form-cpf')).value ) ) passRegexCounter++; else document.getElementById('form-cpf').classList.add('invalid');
 
-      return passRegexCounter == 10;
+      return passRegexCounter == 9;
     }
     
     if(this.registerType == 4) {
-      let cnpjRegex = RegExp('^[0-9]{2}\\.?[0-9]{3}\\.?[0-9]{3}\\/?[0-9]{4}-?[0-9]{2}$');
+      let cnpjRegex = RegExp('^[0-9]{12,16}$');
 
       if( (<HTMLInputElement>document.getElementById('form-entity-nome')).value ) passRegexCounter++; else document.getElementById('form-entity-nome').classList.add('invalid');
       if(cnpjRegex.test( (<HTMLInputElement>document.getElementById('form-entity-cnpj')).value ) ) passRegexCounter++; else document.getElementById('form-entity-cnpj').classList.add('invalid');

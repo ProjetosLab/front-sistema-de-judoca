@@ -22,10 +22,10 @@
                 <input type="text" class="inputForm" id="form-nome" (input)="this.newClient.nome = $event.target.value" [value]="this.newClient.nome"> <label for="form-nome">Nome *</label>
                 <input type="date" class="inputForm" id="form-dataNasc" (input)="this.newClient.dataNasc = $event.target.value" [value]="this.newClient.dataNasc"> <label for="form-dataNasc">Data de nascimento *</label>
                 <input type="text" class="inputForm" id="form-cbj" (input)="this.newClient.cbj = $event.target.value" [value]="this.newClient.cbj"> <label for="form-cbj">CBJ *</label>
-                <input type="text" class="inputForm" id="form-tel1" placeholder="(11)1111-1111" (input)="this.newClient.tel1 = $event.target.value" [value]="this.newClient.tel1"> <label for="form-tel1">Telefone 1 *</label>
-                <input type="text" class="inputForm" id="form-tel2" placeholder="(11)1111-1111" (input)="this.newClient.tel2 = $event.target.value" [value]="this.newClient.tel2"> <label for="form-tel2>Telefone 2">Telefone 2 *</label>
+                <input type="text" class="inputForm" id="form-tel1" placeholder="11911111111" (input)="this.newClient.tel1 = $event.target.value" [value]="this.newClient.tel1"> <label for="form-tel1">Telefone 1 *</label>
+                <input type="text" class="inputForm" id="form-tel2" placeholder="11911111111" (input)="this.newClient.tel2 = $event.target.value" [value]="this.newClient.tel2"> <label for="form-tel2>Telefone 2">Telefone 2 *</label>
                 <input type="email" class="inputForm" id="form-email" placeholder="email@email.com" (input)="this.newClient.email = $event.target.value" [value]="this.newClient.email"> <label for="form-email">E-mail *</label>
-                <input type="text" class="inputForm" id="form-cpf" placeholder="111.111.111-11" (input)="this.newClient.cpf = $event.target.value" [value]="this.newClient.cpf"> <label for="form-cpf">CPF *</label>
+                <input type="text" class="inputForm" id="form-cpf" placeholder="11111111111" (input)="this.newClient.cpf = $event.target.value" [value]="this.newClient.cpf"> <label for="form-cpf">CPF *</label>
                 <input type="text" class="inputForm" id="form-rg" (input)="this.newClient.rg = $event.target.value" [value]="this.newClient.rg"> <label for="form-rg">RG *</label>
                 <input type="text" class="inputForm" id="form-org" (input)="this.newClient.org = $event.target.value" [value]="this.newClient.org"> <label for="form-org">ORG *</label>
                 <input type="text" class="inputForm" id="form-ob" (input)="this.newClient.ob = $event.target.value" [value]="this.newClient.ob"> <label for="form-ob">OB</label>
@@ -33,7 +33,7 @@
 
             <div class="form" *ngIf="registerType == 4">
                 <input type="text" class="inputForm" id="form-entity-nome" (input)="this.newEntity.nome = $event.target.value" [value]="this.newEntity.nome"> <label for="form-entity-nome">Nome *</label>
-                <input type="text" class="inputForm" id="form-entity-cnpj" placeholder="11.111.111/1111-11" (input)="this.newEntity.cnpj = $event.target.value" [value]="this.newEntity.cnpj"> <label for="form-entity-cnpj">CNPJ *</label>
+                <input type="text" class="inputForm" id="form-entity-cnpj" placeholder="11111111111111" (input)="this.newEntity.cnpj = $event.target.value" [value]="this.newEntity.cnpj"> <label for="form-entity-cnpj">CNPJ *</label>
             </div>
 
             <span class="small-tip">Campos marcados com * são obrigatórios</span>
