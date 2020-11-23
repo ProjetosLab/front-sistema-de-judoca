@@ -96,23 +96,23 @@
     font-size: 25px;
 }
 
-.register-container .body .form-container .form input[type="text"], .register-container .body .form-container .form input[type="email"], .register-container .body .form-container .form input[type="date"] {
+.register-container .body .form-container .form input[type="text"], .register-container .body .form-container .form select, .register-container .body .form-container .form input[type="number"], .register-container .body .form-container .form input[type="email"], .register-container .body .form-container .form input[type="date"] {
     border: 2px solid var(--primary-color-1);
     border-radius: 4px;
     padding: 10px 10px 5px 10px;
     width: 300px;
 }
 
-.register-container .body .form-container .form input[type="text"].invalid, .register-container .body .form-container .form input[type="email"].invalid, .register-container .body .form-container .form input[type="date"].invalid {
+.register-container .body .form-container .form input[type="text"].invalid, .register-container .body .form-container .form select.invalid, .register-container .body .form-container .form input[type="number"].invalid, .register-container .body .form-container .form input[type="email"].invalid, .register-container .body .form-container .form input[type="date"].invalid {
     border: 2px solid var(--danger) !important;
 }
 
-.register-container .body .form-container .form input[type="text"]:focus, .register-container .body .form-container .form input[type="email"]:focus, .register-container .body .form-container .form input[type="date"]:focus {
+.register-container .body .form-container .form input[type="text"]:focus, .register-container .body .form-container .form select:focus, .register-container .body .form-container .form input[type="number"]:focus, .register-container .body .form-container .form input[type="email"]:focus, .register-container .body .form-container .form input[type="date"]:focus {
     border: 2px solid var(--primary-color-1-shade);
     outline: none;
 }
 
-.register-container .body .form-container .form input[type="text"] + label, .register-container .body .form-container .form input[type="email"] + label, .register-container .body .form-container .form input[type="date"] + label {
+.register-container .body .form-container .form input[type="text"] + label, .register-container .body .form-container .form input[type="number"] + label, .register-container .body .form-container .form input[type="email"] + label, .register-container .body .form-container .form input[type="date"] + label {
     position: relative;
     top: -56px;
     left: 20px;
@@ -122,7 +122,7 @@
     color: var(--primary-color-1);
 }
 
-.register-container .body .form-container .button-container {
+.register-container .body .form-container .button-container, .enroll-col {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

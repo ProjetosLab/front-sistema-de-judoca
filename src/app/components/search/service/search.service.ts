@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { clienteJudocaInterface } from 'src/app/util/clienteJudoca';
 import { entidadeInterface } from 'src/app/util/entidade';
+import { matriculaInterface } from 'src/app/util/matricula';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,6 +14,8 @@ export class SearchService {
 
   private searchUrl : string = environment.baseUrl + 'Teste/NA/pesquisa/{cpf}';
   private searchEntityList : string = environment.baseUrl + 'Teste/NA/entidade/busca';
+  private enrollListUrl : string = environment.baseUrl + 'Teste/NA/Carteira/lista/{idCliente}';
+  private enrollUrl : string = environment.baseUrl + 'Teste/NA/Carteira/busca/{idCliente}/{idEnroll}';
 
   constructor(
     private http : HttpClient,
@@ -59,6 +62,50 @@ export class SearchService {
         });
 
         return newEntityArray;
+      })
+    )
+  }
+
+  getEnrollList(idCliente : string) : Observable<matriculaInterface[]> {
+    let enrollListUrl = this.enrollListUrl.replace('{idCliente}', idCliente);
+    return this.http.get<JSON>(enrollListUrl).pipe(
+      map( (enrollJSONArray : any) => {
+        let newEnrollArray : matriculaInterface[] = [];
+
+        enrollJSONArray.forEach( enrollJSON => {
+          let newEnroll : matriculaInterface = {
+            "data_final" : enrollJSON.datA_FINAL,
+            "data_inicio" : enrollJSON.datA_INICIO,
+            "empresa" : enrollJSON.empresa,
+            "id" : enrollJSON.id,
+            "id_entidade" : enrollJSON.iD_ENTIDADE,
+            "id_filiado" : enrollJSON.iD_FILIADO,
+            "nome" : enrollJSON.nome,
+          }
+
+          newEnrollArray.push(newEnroll);
+        });
+
+        return newEnrollArray;
+      })
+    )
+  }
+
+  getEnroll(idEnroll : string, idCliente : string) : Observable<matriculaInterface> {
+    let enrollUrl = this.enrollUrl.replace('{idEnroll}', idEnroll).replace('{idCliente}', idCliente);
+    return this.http.get<JSON>(enrollUrl).pipe(
+      map( (enrollJSON : any) => {
+        let newEnroll : matriculaInterface = {
+          "data_final" : enrollJSON.datA_FINAL,
+          "data_inicio" : enrollJSON.datA_INICIO,
+          "empresa" : enrollJSON.empresa,
+          "id" : enrollJSON.id,
+          "id_entidade" : enrollJSON.iD_ENTIDADE,
+          "id_filiado" : enrollJSON.iD_FILIADO,
+          "nome" : enrollJSON.nome,
+        }
+
+        return newEnroll;
       })
     )
   }

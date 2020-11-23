@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { clienteJudocaInterface } from 'src/app/util/clienteJudoca';
 import { entidadeInterface } from 'src/app/util/entidade';
+import { matriculaInterface } from 'src/app/util/matricula';
 import { SearchService } from '../search/service/search.service';
 import { RegisterService } from './service/register.service';
 
@@ -16,10 +17,21 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   faSearch = faSearch;
 
-  registerType : number = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update, 4 = entidade
+  registerType : number = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update, 4 = entidade, 5 = matricula, 6 = atualizar matricula
   message : string = "Insira aqui imagem/título irado";
+  EntityList : entidadeInterface[] = [];
 
   searchText : string = "";
+  newMatricula : matriculaInterface = {
+    "data_final" : "",
+    "data_inicio" : "",
+    "empresa" : "",
+    "id" : "",
+    "id_entidade" : "",
+    "id_filiado" : "",
+    "nome" : "",
+    "meses" : "",
+  }
   newClient : clienteJudocaInterface = {
     "cbj" : "",
     "cpf" : "",
@@ -49,7 +61,27 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.Router.url.slice(1,7) == 'update') {
+    this.searchService.getEntityList().subscribe( entityList => this.EntityList = entityList );
+
+    if(this.Router.url.slice(1,14) == 'update/enroll') {
+      this.ActivatedRoute.params.subscribe( params => {
+        if( params && params.idEnroll ) {
+          this.registerType = 6;
+          this.message = "Carregando dados da matrícula";
+          this.newMatricula = {
+            "data_final" : "...",
+            "data_inicio" : "...",
+            "empresa" : "...",
+            "id" : "...",
+            "id_entidade" : "...",
+            "id_filiado" : "...",
+            "nome" : "...",
+          }
+        }
+        
+        this.searchService.getEnroll(params.idEnroll, params.idCliente).subscribe( enroll => this.newMatricula = enroll );
+      })
+    } else if(this.Router.url.slice(1,7) == 'update') {
       this.ActivatedRoute.params.subscribe( params => {
         if( params && params.cpf ) {
           this.registerType = 3;
@@ -193,9 +225,72 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       
       return passRegexCounter == 2;
     }
+
+    if(this.registerType == 5) {
+      if( (<HTMLInputElement>document.getElementById('form-client-id')).value ) passRegexCounter++; else document.getElementById('form-client-id').classList.add('invalid');
+      if( (<HTMLInputElement>document.getElementById('form-client-month')).value ) passRegexCounter++; else document.getElementById('form-client-month').classList.add('invalid');
+      if( (<HTMLInputElement>document.getElementById('form-entity-id')).value != '-1' ) passRegexCounter++; else document.getElementById('form-entity-id').classList.add('invalid');
+
+      return passRegexCounter == 3;
+    }
   }
 
   redirectTo(to : string): void {
     this.Router.navigateByUrl(to);
   }
+
+  enrollClient() : void {
+    if( this.areInputsValid() ) {
+      this.registerService.enrollClient(this.newMatricula.id_filiado, this.newMatricula.id_entidade, this.newMatricula.meses).subscribe( (responseJSON : any) => {
+        if( responseJSON ) this.message = "Cliente matriculado com sucesso!";
+        else this.message = "Cliente já matriculado!";
+      },
+      () => {
+        this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
+      },
+      () => {
+        this.registerType = 0;
+        
+        this.newMatricula = {
+          "data_final" : "",
+          "data_inicio" : "",
+          "empresa" : "",
+          "id" : this.newMatricula.id,
+          "id_entidade" : "",
+          "id_filiado" : "",
+          "nome" : "",
+          "meses" : "",
+        }
+
+        setTimeout(() => {
+          this.message = "Insira aqui imagem/título irado";
+        }, 10000);
+      })
+    }
+  }
+
+  renewClient() : void {
+    this.registerService.renewEnroll(this.newMatricula.id, this.newMatricula.meses).subscribe( res => {
+      this.message = "Expiração da matrícula atualizada com sucesso";
+    },
+    () => {
+      this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
+    },
+    () => {
+      this.registerType = 0;
+      this.newMatricula = {
+        "data_final" : "",
+        "data_inicio" : "",
+        "empresa" : "",
+        "id" : this.newMatricula.id,
+        "id_entidade" : "",
+        "id_filiado" : "",
+        "nome" : "",
+        "meses" : "",
+      }
+
+      this.redirectTo('request');
+    })
+  }
+
 }

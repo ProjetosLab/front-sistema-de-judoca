@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent },
   {path: 'search/:cpf', component: SearchComponent },
   {path: 'update/:cpf', component: RegisterComponent },
+  {path: 'update/enroll/:idEnroll/:idCliente', component: RegisterComponent},
 ];
 
 @NgModule({

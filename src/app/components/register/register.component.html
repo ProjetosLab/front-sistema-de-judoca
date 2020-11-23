@@ -13,6 +13,7 @@
             <div class="button" (click)="registerType = 1">Cadastrar novo aluno</div>
             <div class="button" (click)="registerType = 2">Cadastrar novo professor</div>
             <div class="button" (click)="registerType = 4">Cadastrar nova entidade</div>
+            <div class="button" (click)="registerType = 5">Matricular cliente</div>
         </div>
 
         <div class="form-container" *ngIf="registerType != 0">
@@ -31,16 +32,43 @@
                 <input type="text" class="inputForm" id="form-ob" (input)="this.newClient.ob = $event.target.value" [value]="this.newClient.ob"> <label for="form-ob">OB</label>
             </div>
 
+            <span class="title" *ngIf="registerType == 4">CADASTRO DE ENTIDADE</span>
             <div class="form" *ngIf="registerType == 4">
                 <input type="text" class="inputForm" id="form-entity-nome" (input)="this.newEntity.nome = $event.target.value" [value]="this.newEntity.nome"> <label for="form-entity-nome">Nome *</label>
                 <input type="text" class="inputForm" id="form-entity-cnpj" placeholder="11111111111111" (input)="this.newEntity.cnpj = $event.target.value" [value]="this.newEntity.cnpj"> <label for="form-entity-cnpj">CNPJ *</label>
             </div>
 
+            <span class="title" *ngIf="registerType == 5">MATRICULAR CLIENTE</span>
+            <div class="form" *ngIf="registerType == 5">
+                <input type="text" class="inputForm" id="form-client-id" (input)="this.newMatricula.id_filiado = $event.target.value" [value]="this.newMatricula.id_filiado"> <label for="form-client-id">ID do usuário *</label>
+                <input type="number" class="inputForm" id="form-client-month" (input)="this.newMatricula.meses = $event.target.value" [value]="this.newMatricula.meses" min="1"> <label for="form-client-month">Quantos meses? *</label>
+                <select class="mb-3" id="form-entity-id" (change)="this.newMatricula.id_entidade = $event.target.value" *ngIf="this.EntityList">
+                    <option [value]="-1">SELECIONE UMA ENTIDADE *</option>
+                    <option *ngFor="let entity of EntityList" [value]="entity.id">{{entity.nome}}</option>
+                </select>
+
+                <span class="mb-3" *ngIf="!this.EntityList">CARREGANDO ENTIDADES, AGUARDE...</span>
+            </div>
+
+            <ng-container *ngIf="registerType == 6">
+                <span class="title" >ATUALIZAR MATRICULA</span>
+                <div class="enroll-col">
+                    <span>Número da matrícula: {{newMatricula.id}}</span>
+                    <span>Empresa: {{newMatricula.empresa}}</span>
+                    <span>Matrícula iniciada em: {{newMatricula.data_inicio}}</span>
+                    <span>Matrícula expira em: {{newMatricula.data_final}}</span>
+                </div>
+                <div class="form">
+                    <input type="text" class="inputForm mt-3" id="form-enroll" [value]="newMatricula.id" (input)="newMatricula.id = $event.target.value"> <label for="form-enroll">ID da matrícula *</label>
+                    <input type="number" class="inputForm" id="form-client-month" (input)="this.newMatricula.meses = $event.target.value" [value]="this.newMatricula.meses" min="1"> <label for="form-client-month">Quantos meses? *</label>
+                </div>
+            </ng-container>
+
             <span class="small-tip">Campos marcados com * são obrigatórios</span>
 
             <div class="button-container">
                 <div class="button" (click)="redirectTo('register'); this.registerType = 0">Voltar ao menu inicial</div>
-                <div class="button" (click)="this.registerType == 3 ? updateClient() : this.registerType == 4 ? registerEntity() : registerClient()">{{this.registerType == 3 ? 'Atualizar' : 'Registrar'}}</div>
+                <div class="button" (click)="this.registerType == 3 ? updateClient() : this.registerType == 4 ? registerEntity() : this.registerType == 5 ? enrollClient() : this.registerType == 6 ? renewClient() : registerClient()">{{this.registerType == 3 ? 'Atualizar' : this.registerType == 5 ? 'Matricular' : this.registerType == 6 ? 'Renovar' : 'Registrar'}}</div>
             </div>
         </div>
     </div>
