@@ -27,3 +27,11 @@
     background-color: var(--primary-color-1-shade);
     cursor: pointer;
 }
+
+.clickable {
+    cursor: pointer;
+}
+
+.link {
+    color: var(--alert);
+}

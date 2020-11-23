@@ -14,6 +14,8 @@ export class RegisterService {
   private clientRegisterUrl : string = environment.baseUrl + 'Teste/NA/{registerType}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
   private clientUpdateUrl : string = environment.baseUrl + 'Teste/NA/atualizar/{id}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}/{tipo}';
   private entityRegisterUrl : string = environment.baseUrl + 'Teste/NA/entidade/{nome}/{cnpj}';
+  private enrollClientUrl : string = environment.baseUrl + 'Teste/NA/Carteira/{idCliente}/{idEntidade}/{mes}';
+  private renewEnrollUrl : string = environment.baseUrl + 'Teste/NA/Carteira/Renova/{idCliente}/{mes}';
 
   constructor(
     private http : HttpClient,
@@ -64,6 +66,18 @@ export class RegisterService {
       .replace('{cnpj}', newEntity.cnpj);
 
     return this.http.get<JSON>(entityRegisterUrl);
+  }
+
+  enrollClient(idClient : string, idEntity : string, months : string) : Observable<JSON> {
+    let enrollClientUrl = this.enrollClientUrl.replace('{idCliente}', idClient).replace('{idEntidade}', idEntity).replace('{mes}', months);
+
+    return this.http.get<JSON>(enrollClientUrl);
+  }
+
+  renewEnroll(idEnroll : string, months : string) : Observable<JSON> {
+    let renewEnrollUrl = this.renewEnrollUrl.replace('{idCliente}', idEnroll).replace('{mes}', months);
+
+    return this.http.get<JSON>(renewEnrollUrl);
   }
 
 }
