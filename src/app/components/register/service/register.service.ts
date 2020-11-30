@@ -14,6 +14,7 @@ export class RegisterService {
   private clientRegisterUrl : string = environment.baseUrl + 'Teste/NA/{registerType}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}';
   private clientUpdateUrl : string = environment.baseUrl + 'Teste/NA/atualizar/{id}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}/{tipo}';
   private entityRegisterUrl : string = environment.baseUrl + 'Teste/NA/entidade/{nome}/{cnpj}';
+  private entityUpdateUrl : string = environment.baseUrl + 'Teste/NA/entidade/atualizar/{id}/{nome}/{data}/{cnpj}';
   private enrollClientUrl : string = environment.baseUrl + 'Teste/NA/Carteira/{idCliente}/{idEntidade}/{mes}';
   private renewEnrollUrl : string = environment.baseUrl + 'Teste/NA/Carteira/Renova/{idCliente}/{mes}';
 
@@ -42,7 +43,6 @@ export class RegisterService {
   }
 
   updateClient(client : clienteJudocaInterface) : Observable<JSON> {
-    //  private clientUpdateUrl : string = environment.baseUrl + 'Teste/NA/atualizar/{id}/{nome}/{dataNasc}/{cbj}/{tel1}/{tel2}/{email}/{cpf}/{rg}/{org}/{ob?}/{tipo}';
     let clientUpdateUrl = this.clientUpdateUrl
       .replace('{id}', client.id)
       .replace('{nome}', client.nome)
@@ -78,6 +78,16 @@ export class RegisterService {
     let renewEnrollUrl = this.renewEnrollUrl.replace('{idCliente}', idEnroll).replace('{mes}', months);
 
     return this.http.get<JSON>(renewEnrollUrl);
+  }
+
+  updateEntity(entity : entidadeInterface) : Observable<JSON> {
+    let entityUpdateUrl = this.entityUpdateUrl
+      .replace('{id}', entity.id)
+      .replace('{data}', entity.dataCadastro)
+      .replace('{cnpj}', entity.cnpj)
+      .replace('{nome}', entity.nome);
+
+    return this.http.get<JSON>(entityUpdateUrl);
   }
 
 }

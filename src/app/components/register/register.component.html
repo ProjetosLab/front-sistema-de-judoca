@@ -1,14 +1,16 @@
 <div class="register-container">
     <div class="header">
         <span class="title">SISTEMA DE JUDOCA</span>
-        <span>
+        <span class="d-col">
+            <span class="button" (click)="redirectTo('/search/student')">Ver alunos</span>
+            <span class="button" (click)="redirectTo('/search/teacher')">Ver professores</span>
             <span class="button" (click)="redirectTo('/search/entities')">Ver entidades</span>
-            <input type="text" placeholder="Buscar cliente (CPF)" (input)="this.searchText = $event.target.value" [value]="this.searchText" (keydown)="$event.key == 'Enter' ? redirectTo('/search/'+this.searchText) : null"><label (click)="redirectTo('/search/'+this.searchText)"><fa-icon [icon]="faSearch"></fa-icon></label>
+            <span><input type="text" placeholder="Busca por nome" (input)="this.searchText = $event.target.value" [value]="this.searchText" (keydown)="$event.key == 'Enter' ? redirectTo('/search/'+this.searchText) : null"><label (click)="redirectTo('/search/'+this.searchText)"><fa-icon [icon]="faSearch"></fa-icon></label></span>
         </span>
     </div>
 
     <div class="body" id="registerBody">
-        <span class="title mt-2 ml-2" *ngIf="registerType == 0 || (registerType == 3 && message != '')">{{message}}</span>
+        <span class="title mt-2 ml-2" *ngIf="registerType == 0 || ( (registerType == 3 || registerType == 7) && message != '')">{{message}}</span>
         <div class="button-container" *ngIf="registerType == 0">
             <div class="button" (click)="registerType = 1">Cadastrar novo aluno</div>
             <div class="button" (click)="registerType = 2">Cadastrar novo professor</div>
@@ -23,17 +25,23 @@
                 <input type="text" class="inputForm" id="form-nome" (input)="this.newClient.nome = $event.target.value" [value]="this.newClient.nome"> <label for="form-nome">Nome *</label>
                 <input type="date" class="inputForm" id="form-dataNasc" (input)="this.newClient.dataNasc = $event.target.value" [value]="this.newClient.dataNasc"> <label for="form-dataNasc">Data de nascimento *</label>
                 <input type="text" class="inputForm" id="form-cbj" (input)="this.newClient.cbj = $event.target.value" [value]="this.newClient.cbj"> <label for="form-cbj">CBJ *</label>
-                <input type="text" class="inputForm" id="form-tel1" placeholder="11911111111" (input)="this.newClient.tel1 = $event.target.value" [value]="this.newClient.tel1"> <label for="form-tel1">Telefone 1 *</label>
-                <input type="text" class="inputForm" id="form-tel2" placeholder="11911111111" (input)="this.newClient.tel2 = $event.target.value" [value]="this.newClient.tel2"> <label for="form-tel2>Telefone 2">Telefone 2 *</label>
+                <input type="text" class="inputForm" id="form-tel1" placeholder="911111111" (input)="this.newClient.tel1 = $event.target.value" [value]="this.newClient.tel1"> <label for="form-tel1">Telefone 1 *</label>
+                <input type="text" class="inputForm" id="form-tel2" placeholder="911111111" (input)="this.newClient.tel2 = $event.target.value" [value]="this.newClient.tel2"> <label for="form-tel2>Telefone 2">Telefone 2 *</label>
                 <input type="email" class="inputForm" id="form-email" placeholder="email@email.com" (input)="this.newClient.email = $event.target.value" [value]="this.newClient.email"> <label for="form-email">E-mail *</label>
                 <input type="text" class="inputForm" id="form-cpf" placeholder="11111111111" (input)="this.newClient.cpf = $event.target.value" [value]="this.newClient.cpf"> <label for="form-cpf">CPF *</label>
                 <input type="text" class="inputForm" id="form-rg" (input)="this.newClient.rg = $event.target.value" [value]="this.newClient.rg"> <label for="form-rg">RG *</label>
                 <input type="text" class="inputForm" id="form-org" (input)="this.newClient.org = $event.target.value" [value]="this.newClient.org"> <label for="form-org">ORG *</label>
                 <input type="text" class="inputForm" id="form-ob" (input)="this.newClient.ob = $event.target.value" [value]="this.newClient.ob"> <label for="form-ob">OB</label>
+                <span class="purple" *ngIf="registerType == 3">Tipo de perfil</span>
+                <div class="radio-container mb-3" *ngIf="registerType == 3">
+                    Aluno&nbsp;<input type="radio" name="updateType" [value]="'A'" [checked]="this.newClient.tipo == 'A'" (change)="this.newClient.tipo = $event.target.value">
+                    &nbsp;Professor&nbsp;<input type="radio" name="updateType" [value]="'P'" [checked]="this.newClient.tipo == 'P'" (change)="this.newClient.tipo = $event.target.value">
+                </div>
             </div>
 
             <span class="title" *ngIf="registerType == 4">CADASTRO DE ENTIDADE</span>
-            <div class="form" *ngIf="registerType == 4">
+            <span class="title" *ngIf="registerType == 7">ATUALIZAÇÃO DE ENTIDADE</span>
+            <div class="form" *ngIf="registerType == 4 || registerType == 7">
                 <input type="text" class="inputForm" id="form-entity-nome" (input)="this.newEntity.nome = $event.target.value" [value]="this.newEntity.nome"> <label for="form-entity-nome">Nome *</label>
                 <input type="text" class="inputForm" id="form-entity-cnpj" placeholder="11111111111111" (input)="this.newEntity.cnpj = $event.target.value" [value]="this.newEntity.cnpj"> <label for="form-entity-cnpj">CNPJ *</label>
             </div>
@@ -55,11 +63,11 @@
                 <div class="enroll-col">
                     <span>Número da matrícula: {{newMatricula.id}}</span>
                     <span>Empresa: {{newMatricula.empresa}}</span>
-                    <span>Matrícula iniciada em: {{newMatricula.data_inicio}}</span>
-                    <span>Matrícula expira em: {{newMatricula.data_final}}</span>
+                    <span>Matrícula iniciada em: {{newMatricula.data_inicio.slice(8,10)}}/{{newMatricula.data_inicio.slice(5,7)}}/{{newMatricula.data_inicio.slice(0,4)}}</span>
+                    <span>Matrícula expira em: {{newMatricula.data_final.slice(8,10)}}/{{newMatricula.data_final.slice(5,7)}}/{{newMatricula.data_final.slice(0,4)}}</span>
                 </div>
                 <div class="form">
-                    <input type="text" class="inputForm mt-3" id="form-enroll" [value]="newMatricula.id" (input)="newMatricula.id = $event.target.value"> <label for="form-enroll">ID da matrícula *</label>
+                    <!--<input type="text" class="inputForm mt-3" id="form-enroll" [value]="newMatricula.id_entidade" (input)="newMatricula.id_entidade = $event.target.value"> <label for="form-enroll">ID da entidade *</label>-->
                     <input type="number" class="inputForm" id="form-client-month" (input)="this.newMatricula.meses = $event.target.value" [value]="this.newMatricula.meses" min="1"> <label for="form-client-month">Quantos meses? *</label>
                 </div>
             </ng-container>
@@ -68,7 +76,7 @@
 
             <div class="button-container">
                 <div class="button" (click)="redirectTo('register'); this.registerType = 0">Voltar ao menu inicial</div>
-                <div class="button" (click)="this.registerType == 3 ? updateClient() : this.registerType == 4 ? registerEntity() : this.registerType == 5 ? enrollClient() : this.registerType == 6 ? renewClient() : registerClient()">{{this.registerType == 3 ? 'Atualizar' : this.registerType == 5 ? 'Matricular' : this.registerType == 6 ? 'Renovar' : 'Registrar'}}</div>
+                <div class="button" (click)="this.registerType == 3 ? updateClient() : this.registerType == 4 ? registerEntity() : this.registerType == 5 ? enrollClient() : this.registerType == 6 ? renewClient() : this.registerType == 7 ? updateEntity() : registerClient()">{{ (this.registerType == 3 || this.registerType == 7) ? 'Atualizar' : this.registerType == 5 ? 'Matricular' : this.registerType == 6 ? 'Renovar' : 'Registrar'}}</div>
             </div>
         </div>
     </div>

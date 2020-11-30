@@ -6,8 +6,9 @@ import { SearchComponent } from './components/search/search.component';
 const routes: Routes = [
   {path: '', redirectTo: 'register', pathMatch: 'full'},
   {path: 'register', component: RegisterComponent },
-  {path: 'search/:cpf', component: SearchComponent },
-  {path: 'update/:cpf', component: RegisterComponent },
+  {path: 'search/:nome', component: SearchComponent },
+  {path: 'update/1/:cpf', component: RegisterComponent },
+  {path: 'update/2/:cnpj', component: RegisterComponent },
   {path: 'update/enroll/:idEnroll/:idCliente', component: RegisterComponent},
 ];
 

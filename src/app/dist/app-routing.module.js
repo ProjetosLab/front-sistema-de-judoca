@@ -14,8 +14,9 @@ var search_component_1 = require("./components/search/search.component");
 var routes = [
     { path: '', redirectTo: 'register', pathMatch: 'full' },
     { path: 'register', component: register_component_1.RegisterComponent },
-    { path: 'search/:cpf', component: search_component_1.SearchComponent },
-    { path: 'update/:cpf', component: register_component_1.RegisterComponent },
+    { path: 'search/:nome', component: search_component_1.SearchComponent },
+    { path: 'update/1/:cpf', component: register_component_1.RegisterComponent },
+    { path: 'update/2/:cnpj', component: register_component_1.RegisterComponent },
     { path: 'update/enroll/:idEnroll/:idCliente', component: register_component_1.RegisterComponent },
 ];
 var AppRoutingModule = /** @class */ (function () {

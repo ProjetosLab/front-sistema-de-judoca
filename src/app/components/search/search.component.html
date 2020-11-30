@@ -4,7 +4,7 @@
     <span>ID: {{customer.id}}</span>
     <span>Nome: {{customer.nome}}</span>
     <span>Nascimento: {{customer.dataNasc}}</span>
-    <span>Cadastrado em: {{customer.dataCadastro}}</span>
+    <span>Cadastrado em: {{customer.dataCadastro.slice(8,10)}}/{{customer.dataCadastro.slice(5,7)}}/{{customer.dataCadastro.slice(0,4)}} </span>
     <span>CBJ: {{customer.cbj}}</span>
     <span>Telefone 1: {{customer.tel1}}</span>
     <span>Telefone 2: {{customer.tel2}}</span>
@@ -17,21 +17,58 @@
 
     <div *ngIf="enrollList" class="mt-3">
         {{enrollList.length}} matrículas encontradas.
-        <div *ngFor="let enroll of enrollList"><span class="clickable" (click)="redirectTo('update/enroll/'+enroll.id+'/'+enroll.id_filiado)">Número da matrícula: <span class="link">{{enroll.id}}</span></span>, {{enroll.empresa}}, expiração da matrícula em {{enroll.data_final.substr(8,2)}}/{{enroll.data_final.substr(5,2)}}/{{enroll.data_final.substr(0,4)}}</div>
+        <div *ngFor="let enroll of enrollList"><span class="clickable" (click)="redirectTo('update/enroll/'+enroll.id_entidade+'/'+enroll.id_filiado)">Número da matrícula: <span class="link">{{enroll.id}}</span></span>, {{enroll.empresa}}, expiração da matrícula em {{enroll.data_final.substr(8,2)}}/{{enroll.data_final.substr(5,2)}}/{{enroll.data_final.substr(0,4)}}</div>
     </div>
     <span *ngIf="!enrollList">Carregando matrículas...</span>
 </div>
 
-<div class="data-container" *ngIf="entityList">
+<div class="data-container" *ngIf="entity">
+    <span>ID: {{entity.id}}</span>
+    <span>Nome: {{entity.nome}}</span>
+    <span>CNPJ: {{entity.cnpj}}</span>
+    <span>Cadastrado em: {{entity.dataCadastro.slice(8,10)}}/{{entity.dataCadastro.slice(5,7)}}/{{entity.dataCadastro.slice(0,4)}} </span>
+</div>
+
+<div class="data-container" *ngIf="customerList && customerList.length > 0">
+    <span>CLIENTES:</span>
+    <div *ngFor="let customer of customerList">
+        <span class="clickable" (click)="getCustomer(customer.cpf)">> ID: <span class="link">{{customer.id}}</span>, </span>
+        <span>Nome: {{customer.nome}}, </span>
+        <span>Cadastrado em: {{customer.dataCadastro.slice(8,10)}}/{{customer.dataCadastro.slice(5,7)}}/{{customer.dataCadastro.slice(0,4)}} </span>
+        <span>CPF: {{customer.cpf}}.</span>
+    </div>
+</div>
+
+<div class="data-container" *ngIf="entityList && entityList.length > 0">
+    <span>ENTIDADES: </span>
     <div *ngFor="let entity of entityList">
-        <span>> ID: {{entity.id}},</span>
+        <span class="clickable" (click)="getEntity(entity.cnpj)">> ID: <span class="link">{{entity.id}}</span>, </span>
         <span>Nome: {{entity.nome}}, </span>
-        <span>Cadastrado em: {{entity.dataCadastro}}, </span>
+        <span>Cadastrado em: {{entity.dataCadastro.slice(8,10)}}/{{entity.dataCadastro.slice(5,7)}}/{{entity.dataCadastro.slice(0,4)}} </span>
         <span>CNPJ: {{entity.cnpj}}.</span>
     </div>
 </div>
 
+<div class="data-container" *ngIf="teacherList">
+    <div *ngFor="let teacher of teacherList">
+        <span class="clickable" (click)="getCustomer(teacher.cpf)">> ID: <span class="link">{{teacher.id}}</span>, </span>
+        <span>Nome: {{teacher.nome}}, </span>
+        <span>Cadastrado em: {{teacher.dataCadastro.slice(8,10)}}/{{teacher.dataCadastro.slice(5,7)}}/{{teacher.dataCadastro.slice(0,4)}} </span>
+        <span>CPF: {{teacher.cpf}}.</span>
+    </div>
+</div>
+
+<div class="data-container" *ngIf="studentList">
+    <div *ngFor="let student of studentList">
+        <span class="clickable" (click)="getCustomer(student.cpf)">> ID: <span class="link">{{student.id}}</span>, </span>
+        <span>Nome: {{student.nome}}, </span>
+        <span>Cadastrado em: {{student.dataCadastro.slice(8,10)}}/{{student.dataCadastro.slice(5,7)}}/{{student.dataCadastro.slice(0,4)}} </span>
+        <span>CPF: {{student.cpf}}.</span>
+    </div>
+</div>
+
 <div class="button-container">
-    <div class="button" (click)="redirectTo('/register')" *ngIf="message != 'Buscando...'">Voltar</div>
-    <div class="button" (click)="redirectTo('/update/'+customer.cpf)" *ngIf="customer">Atualizar Cadastro</div>
+    <div class="button" (click)="resetSearch()" *ngIf="message != 'Buscando...' && (entity || customer) ">Voltar para lista</div>
+    <div class="button" (click)="redirectTo('/register')" *ngIf="message != 'Buscando...'">Voltar para home</div>
+    <div class="button" (click)="customer ? redirectTo('/update/1/'+customer.cpf) : redirectTo('/update/2/'+entity.cnpj)" *ngIf="customer || entity">Atualizar Cadastro</div>
 </div>
