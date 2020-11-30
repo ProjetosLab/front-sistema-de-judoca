@@ -17,8 +17,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   faSearch = faSearch;
 
-  registerType : number = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update, 4 = entidade, 5 = matricula, 6 = atualizar matricula
-  message : string = "Insira aqui imagem/título irado";
+  registerType : number = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update customer, 4 = entidade, 5 = matricula, 6 = atualizar matricula, 7 = update entity
+  message : string = "Selecione uma opção";
   EntityList : entidadeInterface[] = [];
 
   searchText : string = "";
@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         
         this.searchService.getEnroll(params.idEnroll, params.idCliente).subscribe( enroll => this.newMatricula = enroll );
       })
-    } else if(this.Router.url.slice(1,7) == 'update') {
+    } else if(this.Router.url.slice(1,9) == 'update/1') {
       this.ActivatedRoute.params.subscribe( params => {
         if( params && params.cpf ) {
           this.registerType = 3;
@@ -103,6 +103,23 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.message = '';
             this.newClient = clientData;
             this.newClient.dataNasc = this.newClient.dataNasc.slice(0,10)
+          })
+        }
+      })
+    } else if(this.Router.url.slice(1,9) == 'update/2') {
+      this.ActivatedRoute.params.subscribe( params => {
+        if( params && params.cnpj ) {
+          this.message = "Carregando dados da entidade";
+          this.registerType = 7;
+          this.newEntity = {
+            "id" : "...",
+            "nome" : "...",
+            "dataCadastro" : "...",
+            "cnpj" : "..."
+          }
+          this.searchService.getEntity(params.cnpj).subscribe( entityData => {
+            this.message = '';
+            this.newEntity = entityData;
           })
         }
       })
@@ -140,7 +157,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         };
 
         setTimeout(() => {
-          this.message = "Insira aqui imagem/título irado";
+          this.message = "Selecione uma opção";
         }, 10000);
       })
     }
@@ -164,12 +181,30 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
   }
 
+  updateEntity() : void {
+    if( this.areInputsValid() ) {
+      this.registerService.updateEntity(this.newEntity).subscribe( () => {
+        this.message = "Entidade atualizada com sucesso!";
+      },
+      () => {
+        this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
+      },
+      () => {
+        scroll({
+          top: 0,
+          behavior: "smooth"
+        });
+      })
+    }
+  }
+
   registerEntity() : void {
     if( this.areInputsValid() ) {
 
       this.registerService.registerEntity(this.newEntity).subscribe( (responseJSON : any) => {
         if( responseJSON.id == -1 ) this.message = "CNPJ já cadastrado";
-        else this.message = "Entidade cadastrada com sucesso! Id do cadastro: " + responseJSON.id;  
+        else this.message = "Entidade cadastrada com sucesso! Id do cadastro: " + responseJSON.id;
+        this.searchService.getEntityList().subscribe( entityList => this.EntityList = entityList );
       },
       () => {
         this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
@@ -185,7 +220,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         }
 
         setTimeout(() => {
-          this.message = "Insira aqui imagem/título irado";
+          this.message = "Selecione uma opção";
         }, 10000);
       })
     }
@@ -199,7 +234,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     let passRegexCounter = 0;
 
     if(this.registerType == 1 || this.registerType == 2 || this.registerType == 3) {
-      let phoneRegex = RegExp('^[0-9]{8,11}$');
+      let phoneRegex = RegExp('^[0-9]{8,9}$');
       let emailRegex = RegExp('^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$');
       let cpfRegex = RegExp('^[0-9]{11}$');
 
@@ -217,7 +252,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       return passRegexCounter == 9;
     }
     
-    if(this.registerType == 4) {
+    if(this.registerType == 4 || this.registerType == 7) {
       let cnpjRegex = RegExp('^[0-9]{12,16}$');
 
       if( (<HTMLInputElement>document.getElementById('form-entity-nome')).value ) passRegexCounter++; else document.getElementById('form-entity-nome').classList.add('invalid');
@@ -263,7 +298,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         }
 
         setTimeout(() => {
-          this.message = "Insira aqui imagem/título irado";
+          this.message = "Selecione uma opção";
         }, 10000);
       })
     }
@@ -289,7 +324,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         "meses" : "",
       }
 
-      this.redirectTo('request');
+      //this.redirectTo('register');
     })
   }
 

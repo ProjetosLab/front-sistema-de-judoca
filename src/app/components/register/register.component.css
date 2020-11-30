@@ -141,10 +141,30 @@
     font-weight: 600;
 }
 
+.register-container .body .radio-container {
+    display: flex;
+    align-items: center;
+}
+
+.purple {
+    color: var(--primary-color-1);
+}
+
 @media only screen and (max-width: 767px) {
-    .register-container .header {
+    .register-container .header, .register-container .header .d-col, .register-container .body .form-container{
+        display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .register-container .body .button-container {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .register-container .body .title {
+        display: flex;
+        justify-content: center;
     }
 }

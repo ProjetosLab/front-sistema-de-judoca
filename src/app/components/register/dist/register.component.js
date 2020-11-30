@@ -16,8 +16,8 @@ var RegisterComponent = /** @class */ (function () {
         this.Router = Router;
         this.ActivatedRoute = ActivatedRoute;
         this.faSearch = free_solid_svg_icons_1.faSearch;
-        this.registerType = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update, 4 = entidade, 5 = matricula, 6 = atualizar matricula
-        this.message = "Insira aqui imagem/título irado";
+        this.registerType = 0; //0 = Não definido, 1 = Aluno, 2 = Professor, 3 = update customer, 4 = entidade, 5 = matricula, 6 = atualizar matricula, 7 = update entity
+        this.message = "Selecione uma opção";
         this.EntityList = [];
         this.searchText = "";
         this.newMatricula = {
@@ -71,7 +71,7 @@ var RegisterComponent = /** @class */ (function () {
                 _this.searchService.getEnroll(params.idEnroll, params.idCliente).subscribe(function (enroll) { return _this.newMatricula = enroll; });
             });
         }
-        else if (this.Router.url.slice(1, 7) == 'update') {
+        else if (this.Router.url.slice(1, 9) == 'update/1') {
             this.ActivatedRoute.params.subscribe(function (params) {
                 if (params && params.cpf) {
                     _this.registerType = 3;
@@ -93,6 +93,24 @@ var RegisterComponent = /** @class */ (function () {
                         _this.message = '';
                         _this.newClient = clientData;
                         _this.newClient.dataNasc = _this.newClient.dataNasc.slice(0, 10);
+                    });
+                }
+            });
+        }
+        else if (this.Router.url.slice(1, 9) == 'update/2') {
+            this.ActivatedRoute.params.subscribe(function (params) {
+                if (params && params.cnpj) {
+                    _this.message = "Carregando dados da entidade";
+                    _this.registerType = 7;
+                    _this.newEntity = {
+                        "id": "...",
+                        "nome": "...",
+                        "dataCadastro": "...",
+                        "cnpj": "..."
+                    };
+                    _this.searchService.getEntity(params.cnpj).subscribe(function (entityData) {
+                        _this.message = '';
+                        _this.newEntity = entityData;
                     });
                 }
             });
@@ -127,7 +145,7 @@ var RegisterComponent = /** @class */ (function () {
                     "tipo": ""
                 };
                 setTimeout(function () {
-                    _this.message = "Insira aqui imagem/título irado";
+                    _this.message = "Selecione uma opção";
                 }, 10000);
             });
         }
@@ -147,6 +165,21 @@ var RegisterComponent = /** @class */ (function () {
             });
         }
     };
+    RegisterComponent.prototype.updateEntity = function () {
+        var _this = this;
+        if (this.areInputsValid()) {
+            this.registerService.updateEntity(this.newEntity).subscribe(function () {
+                _this.message = "Entidade atualizada com sucesso!";
+            }, function () {
+                _this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
+            }, function () {
+                scroll({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        }
+    };
     RegisterComponent.prototype.registerEntity = function () {
         var _this = this;
         if (this.areInputsValid()) {
@@ -155,6 +188,7 @@ var RegisterComponent = /** @class */ (function () {
                     _this.message = "CNPJ já cadastrado";
                 else
                     _this.message = "Entidade cadastrada com sucesso! Id do cadastro: " + responseJSON.id;
+                _this.searchService.getEntityList().subscribe(function (entityList) { return _this.EntityList = entityList; });
             }, function () {
                 _this.message = "Ocorreu um erro inesperado, contate o administrador da aplicação.";
             }, function () {
@@ -166,7 +200,7 @@ var RegisterComponent = /** @class */ (function () {
                     "dataCadastro": ""
                 };
                 setTimeout(function () {
-                    _this.message = "Insira aqui imagem/título irado";
+                    _this.message = "Selecione uma opção";
                 }, 10000);
             });
         }
@@ -177,7 +211,7 @@ var RegisterComponent = /** @class */ (function () {
         });
         var passRegexCounter = 0;
         if (this.registerType == 1 || this.registerType == 2 || this.registerType == 3) {
-            var phoneRegex = RegExp('^[0-9]{8,11}$');
+            var phoneRegex = RegExp('^[0-9]{8,9}$');
             var emailRegex = RegExp('^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$');
             var cpfRegex = RegExp('^[0-9]{11}$');
             if (document.getElementById('form-nome').value)
@@ -218,7 +252,7 @@ var RegisterComponent = /** @class */ (function () {
                 document.getElementById('form-cpf').classList.add('invalid');
             return passRegexCounter == 9;
         }
-        if (this.registerType == 4) {
+        if (this.registerType == 4 || this.registerType == 7) {
             var cnpjRegex = RegExp('^[0-9]{12,16}$');
             if (document.getElementById('form-entity-nome').value)
                 passRegexCounter++;
@@ -272,7 +306,7 @@ var RegisterComponent = /** @class */ (function () {
                     "meses": ""
                 };
                 setTimeout(function () {
-                    _this.message = "Insira aqui imagem/título irado";
+                    _this.message = "Selecione uma opção";
                 }, 10000);
             });
         }
@@ -295,7 +329,7 @@ var RegisterComponent = /** @class */ (function () {
                 "nome": "",
                 "meses": ""
             };
-            _this.redirectTo('request');
+            //this.redirectTo('register');
         });
     };
     RegisterComponent = __decorate([
